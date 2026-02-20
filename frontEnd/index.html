@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--2026-01-15-->
+<head>
+    <meta charset="UTF-8">
+    <title>MyAnime</title>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+<body>
+  <div class="welcome">
+    Welcome <span id="achievement"></span>:
+    <span id="watched_season"></span>
+    seasons watched
+    (<span id="watched_episode"></span>episodes)
+  </div>
+  <hr/>
+<!---------------------CRUD--------------------------->
+  <div class="frame">
+    <div class="left">
+
+      <div id="append_anime" class="search_box">
+          <label for ="anime_title">Add New Anime*:</label><input type = "text" id="anime_title" placeholder="anime title" maxlength="50">
+          <label for ="anime_title_jp">Anime(JP):</label><input type = "text" id="anime_title_jp" placeholder="Japanese title(optional)" maxlength="50">
+
+          <button id="append_anime_confirm">confirm</button>
+      </div>
+    <!---------------------search--------------------------->
+      <div id="resolve_search">
+        <label for ="resolve_title" style="display:none">search
+        <input id="resolve_title" placeholder="anime_title">
+        <button id="resolve_search_confirm">confirm</button>
+        </label>
+
+        <div id ="anime_info"></div>
+        <table class="card">
+          <thead id = "season_head" style="display:none">
+            <tr>
+              <td><button id="addSeason">Add New Season</button></td>
+              <td>Season</td>
+              <td>Title</td>
+              <td>Progress</td>
+              <td>Status</td>
+              <td>Air Year | Season</td>
+              <td>Rating</td>
+              <td>Start</td>
+              <td>End</td>
+            </tr>
+          </thead>
+
+          <tbody id="season_info"></tbody>
+
+        </table>
+      </div>
+      <hr/>
+      <div id="other_search">
+        <span id="click_blur_search" class="hidden_button">Search Anime</span> or
+        <span id="click_status_search" class="hidden_button">Search Details</span>
+
+        <div id="blur_search">
+          <div id="blur_search_input" class="search_box">
+            <label for ="blur_title"></label><input id ="blur_title" placeholder="anime title">
+
+            <button class="blur_search">confirm</button>
+            <button class="blur_clean">clean</button>
+          </div>
+
+          <div id="blur_search_result" class="card">
+            <table>
+              <thead id="blur_thead" style="display:none">
+                <tr>
+                  <td>Anime Title</td>
+                  <td>Anime Title(JP)</td>
+                  <td>Total Seasons</td>
+                  <td>Total Episodes</td>
+                  <td>AVG Rating</td>
+                  <td>Start</td>
+                  <td>End</td>
+                </tr>
+              </thead>
+              <tbody id="blur_search_container"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="status_search" style="display:none">
+          <div id="status_search_input">
+            <div class="status-search-row">
+              <label for="input_status">Status:</label>
+              <select id="input_status">
+                <option value=""></option>
+                <option value="plan">Plan</option>
+                <option value="next">Next</option>
+                <option value="watching">Watching</option>
+                <option value="finished">Finished</option>
+                <option value="quit">Quit</option>
+              </select>
+            </div>
+            <div class="status-search-row">
+              <label for="input_air_year">Air Year:</label>
+              <input id="input_air_year" type="number" placeholder="ex.2025" min="1900" max="2999">
+            </div>
+            <div class="status-search-row">
+              <label for="input_air_season">Air Season:</label>
+              <select id="input_air_season">
+                <option value=""></option>
+                <option value="winter">Winter(1,2,3)</option>
+                <option value="spring">Spring(4,5,6)</option>
+                <option value="summer">Summer(7,8,9)</option>
+                <option value="fall">Fall(10,11,12)</option>
+              </select>
+            </div>
+            <div class="status-search-row">
+              <label for="input_rate">Rating:</label>
+              <select id="input_rate">
+                <option value=""></option>
+                <option value="-1">-1</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div class="status-search-row">
+              <label for="input_season">Which Season:</label>
+              <input id="input_season" type="text" placeholder="ex. 1" maxlength="50">
+            </div>
+            <div class="status-search-row">
+              <label for="input_total_episodes">Total Episodes:</label>
+              <input id="input_total_episodes" type="number" placeholder="ex. 12" min="0" max="1000">
+            </div>
+            <button class="status_search" data-id="true">Confirm</button>
+            <button class="status_clean" data-id="false">Clean</button>
+          </div>
+
+          <div id="status_search_result">
+            <table class="card">
+              <thead id="status_thead" style="display:none">
+                <tr>
+                  <td>Anime Title</td>
+                  <td>Season</td>
+                  <td>Season Title</td>
+                  <td>Status</td>
+                  <td>Air Year</td>
+                  <td>Air Season</td>
+                  <td>Current Episode</td>
+                  <td>Total Episodes</td>
+                  <td>Rating</td>
+                </tr>
+              </thead>
+              <tbody id="status_search_container">
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="img">
+        <img id="img1" class="img" src=""  alt/>
+      </div>
+    </div>
+
+  <!---------------------list--------------------------->
+    <div class="right">
+      <div id="watch_list">
+        <div>
+          Watching:
+          <div id="watching" class="list-item">
+          </div>
+        </div>
+        <div>
+          Next:
+          <div id="next" class="list-item">
+          </div>
+        </div>
+        <div>
+          Plan:
+          <div id="plan" class="list-item">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<!----------------- dialog------------------------------------------->
+  <dialog id="update_anime">
+    <div class="action">Modify Anime</div>
+    <form method="dialog">
+      <p class="form-row">
+        <label for="update_title">Anime Title*:</label>
+        <input id="update_title" type="text" placeholder="update_title" maxlength="50">
+      </p>
+      <p class="form-row">
+        <label for="update_title_jp">Anime Title(JP):</label>
+        <input id="update_title_jp" type="text" placeholder="update_title_jp" maxlength="50">
+      </p>
+      <div class="action">
+        <button value="true">Confirm</button>
+        <button value="false">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="append_season">
+    <div>
+      <div class="show_anime action"></div>
+      <div class="action">Add New Season</div>
+    </div>
+    <form method = "dialog">
+      <p class="form-row">
+        <label for="season">Season*:</label>
+        <input id="season" type="text" placeholder="season" maxlength="50">
+      </p>
+      <p class="form-row">
+        <label for="status">Status:</label>
+        <select id="status">
+          <option value="plan">Plan</option>
+          <option value="next">Next</option>
+          <option value="watching">Watching</option>
+          <option value="finished">Finished</option>
+          <option value="quit">Quit</option>
+        </select>
+      </p>
+      <p class="form-row">
+        <label for="season_title">Season Title:</label>
+        <input id="season_title" type="text" placeholder="season_title" maxlength="50">
+      </p>
+      <p class="form-row">
+        <label for="total_episodes">Total Episodes:</label>
+        <input id="total_episodes" type="number" placeholder="Default 12" min="0" max="1000">
+      </p>
+      <p class="form-row">
+        <label for="air_year">Air Year:</label>
+        <input id="air_year" type="number" placeholder="2026" min="1900" max="2999">
+      </p>
+      <p class="form-row">
+        <label for="air_season">Air Season:</label>
+        <select id="air_season">
+          <option value=""></option>
+          <option value="winter">Winter(1,2,3)</option>
+          <option value="spring">Spring(4,5,6)</option>
+          <option value="summer">Summer(7,8,9)</option>
+          <option value="fall">Fall(10,11,12)</option>
+        </select>
+      </p>
+      <p class="form-row">
+        <label for="rate">Rating:</label>
+          <select id="rate">
+          <option value="-1">-1</option>
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </p>
+      <div class="action">
+        <button value="true">Confirm</button>
+        <button value="false">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="update_seasons">
+    <div>
+      <div class="show_anime action"></div>
+      <div class="action">Modify Season</div>
+    </div>
+    <form method="dialog">
+      <p class="form-row">
+        <label for="update_season">Season:</label>
+        <input id="update_season" type="text" placeholder="季" readonly>
+      </p>
+      <p class="form-row">
+        <label for="update_status">Status:</label>
+        <select id="update_status">
+          <option value="plan">Plan</option>
+          <option value="next">Next</option>
+          <option value="watching">Watching</option>
+          <option value="finished">Finished</option>
+          <option value="quit">Quit</option>
+        </select>
+      </p>
+      <p class="form-row">
+        <label for="update_season_title">Season Title:</label>
+        <input id="update_season_title" type="text" placeholder="season_title" maxlength="50">
+      </p>
+      <p class="form-row">
+        <label for="update_total_episodes">Total Episodes:</label>
+        <input id="update_total_episodes" type="number" placeholder="Default 12" min="0" max="1000">
+      </p>
+      <p class="form-row">
+        <label for="update_air_year">Air Year:</label>
+        <input id="update_air_year" type="number" placeholder="2026" min="1900" max="2999">
+      </p>
+      <p class="form-row">
+        <label for="update_air_season">Air Season:</label>
+        <select id="update_air_season">
+          <option value=""></option>
+          <option value="winter">Winter(1,2,3)</option>
+          <option value="spring">Spring(4,5,6)</option>
+          <option value="summer">Summer(7,8,9)</option>
+          <option value="fall">Fall(10,11,12)</option>
+        </select>
+      </p>
+      <p class="form-row">
+        <label for="update_rate">Rating:</label>
+          <select id="update_rate">
+            <option value="-1">-1</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+      </p>
+
+      <div class="action">
+        <button value="true">Confirm</button>
+        <button value="false">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="append_episode">
+    <div>
+      <div class="show_anime action"></div>
+      <div class="action">Season <span class="show_season"></span>: ADD New Episode</div>
+    </div>
+    <form method="dialog">
+      <p class="form-row">
+        <label for="episode">Episode*:</label>
+        <input id="episode" type="number" placeholder="episode" min="0" max="1000">
+      </p>
+      <p class="form-row">
+        <label for="title">Episode Title:</label>
+        <input id="title" type="text" placeholder="title" maxlength="50">
+      </p>
+      <p class="form-row">
+        <label for="watch_date">Watch Date:</label>
+        <input id="watch_date" type="date" placeholder="YYYY-MM-DD(Default Today)" min="1900-01-01" max="2999-12-31">
+      </p>
+      <div class="action">
+        <button value="true">Confirm</button>
+        <button value="false">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="update_episodes">
+    <form method="dialog">
+      <div>
+        <div class="show_anime action"></div>
+        <div class="action">Season <span class="show_season"></span>:Modify episode</div>
+      </div>
+        <p class="form-row">
+          <label for="update_episode">Episode:</label>
+          <input id="update_episode" type="number" placeholder="episode" readonly>
+        </p>
+        <p class="form-row">
+          <label for="update_episode_title">Episode Title:</label>
+          <input id="update_episode_title"  type="text" placeholder="title" maxlength="50">
+        </p>
+        <p class="form-row">
+          <label for="update_watch_date">Watch Date:</label>
+          <input id="update_watch_date" type="date" placeholder="YYYY-MM-DD(Default Today)" min="1900-01-01" max="2999-12-31">
+        </p>
+      <div class="action">
+        <button value="true">Confirm</button>
+        <button value="false">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="finish_all_episodes">
+    <div>
+      <div class="show_anime action"></div>
+      <div class="action">Season <span class="show_season"></span>:Finished All Episodes</div>
+    </div>
+    <form method="dialog">
+      <p class="form-row">
+        <label for="all_watch_date">Watch Date:</label>
+        <input id="all_watch_date" type="date" placeholder="YYYY-MM-DD(Default Today)" min="1900-01-01" max="2999-12-31">
+      </p>
+      <div class="action">
+        <button value="true">Confirm</button>
+        <button value="false">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="confirm">
+    <form method="dialog">
+      <div>Are You Sure?</div>
+      <div class="action">
+        <button value = "true">YES</button>
+        <button value = "false">NO</button>
+      </div>
+    </form>
+  </dialog>
+<!---------------------script--------------------------->
+  <script type="module" src="./main.js"></script>
+
+</body>
+</html>
