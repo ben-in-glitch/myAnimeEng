@@ -22,7 +22,7 @@ StatusType = Literal["plan","next","watching","finished","quit"]
 # --------------------------------------index/set-up-----------------------------------------------
 # @app.get("/")
 # def index():
-#     return FileResponse("frontEnd/index.frontEnd")
+#     return FileResponse("docs/index.docs")
 
 @app.post("/init")
 def init():
@@ -277,4 +277,4 @@ def validate_input(**kwargs):
 
 
 #-----------------staticfiles---------------------------------------
-app.mount("/", StaticFiles(directory="frontEnd",html=True))
+app.mount("/", StaticFiles(directory="docs",html=True))
